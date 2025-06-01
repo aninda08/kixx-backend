@@ -1,0 +1,14 @@
+resilience4j:
+  circuitbreaker:
+    instances:
+      apiFootballService:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        permittedNumberOfCallsInHalfOpenState: 2
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+  retry:
+    instances:
+      apiFootballService:
+        maxAttempts: 3
+        waitDuration: 2s

@@ -1,0 +1,15 @@
+package com.kixx.footballstandings.response;
+
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.kixx.footballstandings.model.Country;
+
+import lombok.Data;
+
+@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class CountryResponse {
+    private List<Country> countries;
+    private long timeTaken;
+}
