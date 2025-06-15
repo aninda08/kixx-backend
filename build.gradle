@@ -2,6 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.5.0'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.sonarqube' version '4.4.1.3373'
+	id 'jacoco'
 }
 
 group = 'com.kixx'
@@ -54,6 +56,37 @@ dependencyManagement {
 	}
 }
 
-tasks.named('test') {
+springBoot {
+    buildInfo()
+}
+
+jacoco {
+    toolVersion = '0.8.11'
+}
+
+test {
 	useJUnitPlatform()
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        xml.outputLocation = file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
+        html.required = true
+        html.outputLocation = file("${buildDir}/reports/jacoco/test/html")
+    }
+}
+
+sonarqube {
+    properties {
+        property 'sonar.projectKey', 'footballstandings'
+        property 'sonar.projectName', 'footballstandings'
+		property 'sonar.sources', 'src/main/java'
+		property 'sonar.tests', 'src/test/java'
+		property 'sonar.language', 'java'
+        property 'sonar.java.source', '21'
+		property 'sonar.java.coveragePlugin', 'jacoco'
+		property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
+    }
 }

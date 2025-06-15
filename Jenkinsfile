@@ -13,23 +13,30 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                sh './gradlew test'
+                sh './gradlew test jacocoTestReport'
             }
         }
 
-        stage('Containerize') {
+        stage('SonarQube Analysis') {
             steps {
-                echo 'Building Docker image...'
-                sh 'docker --version'
-                sh 'docker build -t kixx-backend .'
+                echo 'Running SonarQube analysis...'
+                sh './gradlew sonar'
             }
         }
 
-        stage('Deploy') {
-            steps {
-                echo 'Deploying the application...'
-                sh 'docker run -d --name kixx-backend -p 8081:8081 kixx-backend:latest'
-            }
-        }
+        // stage('Containerize') {
+        //     steps {
+        //         echo 'Building Docker image...'
+        //         sh 'docker --version'
+        //         sh 'docker build -t kixx-backend .'
+        //     }
+        // }
+
+        // stage('Deploy') {
+        //     steps {
+        //         echo 'Deploying the application...'
+        //         sh 'docker run -d --name kixx-backend -p 8081:8081 kixx-backend:latest'
+        //     }
+        // }
     }
 }
