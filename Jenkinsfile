@@ -18,9 +18,13 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
+            environment {
+                SONARQUBE_URL = 'http://localhost:9000'
+                SONARQUBE_TOKEN = credentials('SONARQUBE_TOKEN')
+            }
             steps {
                 echo 'Running SonarQube analysis...'
-                sh './gradlew sonar'
+                sh './gradlew sonar -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.login=${SONARQUBE_TOKEN}'
             }
         }
 
