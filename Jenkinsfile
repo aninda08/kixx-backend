@@ -19,7 +19,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             environment {
-                SONARQUBE_URL = environment['SONARQUBE_URL']
+                SONARQUBE_URL = env.SONARQUBE_URL
                 SONARQUBE_TOKEN = credentials('SONARQUBE_TOKEN')
             }
             steps {
